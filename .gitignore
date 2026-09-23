@@ -25,3 +25,6 @@ modello-hf/
 # vocabolario derivato: si rigenera con features.scrivi_vocabolario()
 # derived vocabulary: regenerate with features.scrivi_vocabolario()
 */vocabolario/
+
+# bozza per Reddit, non fa parte del progetto
+post-reddit.md
