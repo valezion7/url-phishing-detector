@@ -1,0 +1,7 @@
+gradio>=5.0
+scikit-learn==1.7.2
+pandas
+numpy
+joblib
+tldextract
+huggingface_hub

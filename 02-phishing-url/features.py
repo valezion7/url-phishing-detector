@@ -45,19 +45,29 @@ SENSITIVE = ("login", "signin", "log-in", "verify", "verification", "secure", "a
              "connexion", "identifiant", "securite", "compte", "paiement", "facture",
              "anmelden", "konto", "sicherheit", "zahlung", "rechnung", "bestaetigen")
 
+DERIVATI = pathlib.Path(__file__).parent / "vocabolario"
+
 @lru_cache(maxsize=1)
 def known_domains(n=120_000):
     """I domini registrati piu' visitati: servono solo per capire se un marchio sta
-    a casa propria. paypal.com c'e', paypal.com.security-check.xyz no."""
+    a casa propria. paypal.com c'e', paypal.com.security-check.xyz no.
+
+    Se la lista Tranco non c'e' (modello scaricato da solo, senza il dataset), si usa
+    il vocabolario compatto generato da `scrivi_vocabolario()`: contiene solo i domini
+    che servono a questa feature, non la lista intera."""
     f = RAW / "tranco.txt"
-    if not f.exists(): return frozenset()
-    return frozenset(f.read_text(encoding="utf-8").splitlines()[:n])
+    if f.exists():
+        return frozenset(f.read_text(encoding="utf-8").splitlines()[:n])
+    d = DERIVATI / "domini_noti.txt"
+    return frozenset(d.read_text(encoding="utf-8").split()) if d.exists() else frozenset()
 
 @lru_cache(maxsize=1)
 def brands(n=5000):
     """Nomi di secondo livello dei domini piu' visitati al mondo (Tranco)."""
     f = RAW / "tranco.txt"
-    if not f.exists(): return frozenset()
+    if not f.exists():
+        d = DERIVATI / "marchi.txt"
+        return frozenset(d.read_text(encoding="utf-8").split()) if d.exists() else frozenset()
     words, _, _ = _lex()
     out, top = set(), set()
     for i, d in enumerate(f.read_text(encoding="utf-8").splitlines()[:n]):
@@ -77,6 +87,7 @@ WORD_RE = re.compile(r"[a-z]+|\d+")
 @lru_cache(maxsize=1)
 def _lex():
     f = RAW / "words_alpha.txt"
+    if not f.exists(): f = DERIVATI / "parole.txt"
     words = {w for w in f.read_text(encoding="utf-8").split() if len(w) >= 3} if f.exists() else set()
     words |= {"app", "web", "dev", "api", "io", "ai", "3d", "hub", "lab", "net", "biz"}
     bg = Counter(); uni = Counter()
@@ -231,6 +242,21 @@ def featurize(urls):
     NUMERIC = [c for c in df.columns if c not in ("tld", "registered_domain", "url_text", "host_text", "path_text")
                and not c.startswith("_")]
     return df
+
+def scrivi_vocabolario(dove=None):
+    """Estrae il minimo indispensabile perche' il modello funzioni senza il dataset:
+    i marchi, i domini noti che servono davvero (solo quelli il cui nome e' un marchio)
+    e la lista di parole. Serve a spedire il modello da solo."""
+    dove = pathlib.Path(dove or DERIVATI); dove.mkdir(exist_ok=True)
+    m = brands()
+    (dove / "marchi.txt").write_text(chr(10).join(sorted(m)), encoding="utf-8")
+    noti = {d for d in known_domains() if _ext(d).domain in m}
+    (dove / "domini_noti.txt").write_text(chr(10).join(sorted(noti)), encoding="utf-8")
+    parole = RAW / "words_alpha.txt"
+    if parole.exists():
+        (dove / "parole.txt").write_text(parole.read_text(encoding="utf-8"), encoding="utf-8")
+    print(f"marchi {len(m):,} | domini noti utili {len(noti):,} -> {dove}")
+    return dove
 
 if __name__ == "__main__":
     for u in ["https://www.poste.it/",

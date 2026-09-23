@@ -17,3 +17,11 @@ __pycache__/
 
 # documento di lavoro interno / internal work log
 SAL_*.md
+
+# pacchetto pronto per Hugging Face (contiene il modello da 30 MB)
+# package ready for Hugging Face (contains the 30 MB model)
+modello-hf/
+
+# vocabolario derivato: si rigenera con features.scrivi_vocabolario()
+# derived vocabulary: regenerate with features.scrivi_vocabolario()
+*/vocabolario/
