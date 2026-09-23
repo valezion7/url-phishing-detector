@@ -1,0 +1,19 @@
+# I dati NON si pubblicano: i feed usati (OpenPhish, Tranco, Phishing.Database) hanno
+# licenze che non permettono la ridistribuzione. Si pubblicano i raccoglitori: chiunque
+# ricostruisce il dataset con `python collect_data.py`.
+# The data is NOT published: the feeds used (OpenPhish, Tranco, Phishing.Database) have
+# licences that do not allow redistribution. The collectors are published instead.
+*/data/
+*/outputs/
+*/outputs_*/
+*/.tld_cache/
+__pycache__/
+*.pyc
+*.joblib
+*.npz
+
+# domini personali per la prova di accettazione / personal domains for the acceptance test
+*/prove_mie.txt
+
+# documento di lavoro interno / internal work log
+SAL_*.md
