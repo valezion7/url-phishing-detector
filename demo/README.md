@@ -14,7 +14,7 @@ short_description: Judges a link from the string alone. Research demo, not a sec
 
 Judges a link from **the string alone**: no network call, no page fetch.
 
-- **Model**: [valezion7/url-phishing-detector](https://huggingface.co/valezion7/url-phishing-detector)
+- **Model**: [valezion7/url-phishing-detector](https://huggingface.co/valezion/url-phishing-detector)
 - **Code, data sources and the diary of eight ways the model fooled me**:
   [github.com/valezion7/url-phishing-detector](https://github.com/valezion7/url-phishing-detector)
 

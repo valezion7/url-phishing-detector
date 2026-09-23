@@ -10,7 +10,7 @@ import json, os, pathlib, sys
 import gradio as gr
 
 QUI = pathlib.Path(__file__).parent
-REPO_MODELLO = os.environ.get("MODEL_REPO", "valezion7/url-phishing-detector")
+REPO_MODELLO = os.environ.get("MODEL_REPO", "valezion/url-phishing-detector")
 
 def carica():
     locale = QUI / "modello"

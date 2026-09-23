@@ -2,6 +2,8 @@
 
 *[Read in English](README.md)*
 
+**[Provalo dal vivo](https://phishing.studiobeezy.com)** · **[Modello su Hugging Face](https://huggingface.co/valezion/url-phishing-detector)**
+
 Un rilevatore di URL di phishing che giudica un link **dalla sola stringa** — nessuna chiamata
 di rete, nessun fetch della pagina — più il registro di ogni scorciatoia che si è preso mentre
 lo costruivo, e di come ognuna è stata scoperta.

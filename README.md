@@ -2,6 +2,8 @@
 
 *[Leggi in italiano](README.it.md)*
 
+**[Try it live](https://phishing.studiobeezy.com)** · **[Model on Hugging Face](https://huggingface.co/valezion/url-phishing-detector)**
+
 A phishing-URL detector that judges a link from **the string alone** — no network call, no
 page fetch — plus the log of every shortcut it took while I was building it, and how each one
 was caught.
